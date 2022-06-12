@@ -1,12 +1,10 @@
 {
-    "name": "com.itisnotonlyme.nombre.Tests",
+    "name": "com.itisnotonlyme.wave-function-collapse.Editor",
     "rootNamespace": "",
-    "references": [
-        "GUID:0acc523941302664db1f4e527237feb3",
-        "GUID:27619889b8ba8c24980f49ee34dbb44a",
-        "GUID:1ce5d872e3143e14cad6fe7a65c83b68"
+    "references": [],
+    "includePlatforms": [
+        "Editor"
     ],
-    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

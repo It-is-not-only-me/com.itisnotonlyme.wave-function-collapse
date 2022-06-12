@@ -1,2 +1,4 @@
-# Unity-Packages
-Este repositorio va a tener todos los packages que vaya creando para crear mis juegos
+# Wave function collapse
+---
+
+La idea es crear una implementacion suficientemente flexible para poder usarla en cualquier situacion. Ya sea 2D o 3D, con modelos o con sprites.

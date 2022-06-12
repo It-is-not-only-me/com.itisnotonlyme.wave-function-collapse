@@ -1,12 +1,14 @@
 {
-    "name": "com.itisnotonlyme.nombre",
+    "name": "com.itisnotonlyme.wave-function-collapse",
     "version": "1.0.0",
-    "displayName": "Nombre Lindo",
-    "description": "Descripcion linda",
+    "displayName": "Wave function collapse",
+    "description": "En esta implementacion permitira sin mucho esfuerzo poder usar la idea de wave function collapse para cualquier cosa que se necesita",
     "unity": "2020.3",
     "keywords": [
-      "Key", 
-      "Words"
+      "Wave", 
+      "Function",
+      "Collapse",
+      "Algorithm"
     ],
     "author": {
       "name": "Juan Ignacio Biancuzzo",
