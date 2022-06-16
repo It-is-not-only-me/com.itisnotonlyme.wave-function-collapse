@@ -5,6 +5,21 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using ItIsNotOnlyMe.WaveFunctionCollapse;
 
+public class GeneradorElectivoPrueba : IGeneradorDeNumeros
+{
+    private int _numero;
+
+    public GeneradorElectivoPrueba(int numero)
+    {
+        _numero = numero;
+    }
+
+    public int Numero(int final, int inicio = 0, int separacion = 1)
+    {
+        return _numero - 1;
+    }
+}
+
 public class WaveFunctionCollapseTest
 {
     private IGeneradorDeNumeros _generadorDeNumeros = new GeneradorInicioPrueba();
@@ -183,6 +198,8 @@ public class WaveFunctionCollapseTest
         Assert.AreEqual(3, estadoTerciario.Numero);
     }
 
+    // mas pruebas con nodos indirectos
+
     [Test]
     public void Test08ConCuatrosNodosTodosVinculadosConTodosAlUsarElAlgoritmoTodasLasEntropiasSonUno()
     {
@@ -232,93 +249,90 @@ public class WaveFunctionCollapseTest
         }
     }
 
-    private List<INodo> CrearBloqueSudoku()
+    private Arista CrearArista(INodo nodo)
+    {
+        return new Arista(nodo, _valor);
+    }
+
+    private int Indice4x4(int fila, int columna)
+    {
+        return fila * 4 + columna;
+    }
+
+    private List<INodo> CrearSudoku4x4()
     {
         List<INodo> nodos = new List<INodo>();
+        for (int i = 0; i < 16; i++)
+            nodos.Add(new Nodo(CuatroEstados()));
 
-        for (int i = 0; i < 9; i++)
-            nodos.Add(new Nodo(NueveEstados()));
-
-        for (int i = 0; i < nodos.Count; i++)
-            for (int j = 0; j < nodos.Count; j++)
+        for (int posicionNodo = 0; posicionNodo < nodos.Count; posicionNodo++)
+        {
+            INodo nodoActual = nodos[posicionNodo];
+            int filaActual = posicionNodo / 4;
+            int columnaActual = posicionNodo % 4;
+            for (int posicionVinculo = 0; posicionVinculo < nodos.Count; posicionVinculo++)
             {
-                if (i == j)
+                if (posicionNodo == posicionVinculo)
                     continue;
-                nodos[i].AgregarAdyacente(new Arista(nodos[j], _valor));
+
+                INodo nodoVinculo = nodos[posicionVinculo];
+                int filaVinculo = posicionVinculo / 4;
+                int columnaVinculo = posicionVinculo % 4;
+
+                if (columnaActual == columnaVinculo || filaActual == filaVinculo)
+                    nodoActual.AgregarAdyacente(CrearArista(nodoVinculo));
             }
+        }
+
+        nodos[Indice4x4(0, 0)].AgregarAdyacente(CrearArista(nodos[Indice4x4(1, 1)]));
+        nodos[Indice4x4(0, 1)].AgregarAdyacente(CrearArista(nodos[Indice4x4(1, 0)]));
+        nodos[Indice4x4(1, 0)].AgregarAdyacente(CrearArista(nodos[Indice4x4(0, 1)]));
+        nodos[Indice4x4(1, 1)].AgregarAdyacente(CrearArista(nodos[Indice4x4(0, 0)]));
+
+
+        nodos[Indice4x4(0, 2)].AgregarAdyacente(CrearArista(nodos[Indice4x4(1, 3)]));
+        nodos[Indice4x4(0, 3)].AgregarAdyacente(CrearArista(nodos[Indice4x4(1, 2)]));
+        nodos[Indice4x4(1, 2)].AgregarAdyacente(CrearArista(nodos[Indice4x4(0, 3)]));
+        nodos[Indice4x4(1, 3)].AgregarAdyacente(CrearArista(nodos[Indice4x4(0, 2)]));
+
+
+        nodos[Indice4x4(2, 0)].AgregarAdyacente(CrearArista(nodos[Indice4x4(3, 1)]));
+        nodos[Indice4x4(2, 1)].AgregarAdyacente(CrearArista(nodos[Indice4x4(3, 0)]));
+        nodos[Indice4x4(3, 0)].AgregarAdyacente(CrearArista(nodos[Indice4x4(2, 1)]));
+        nodos[Indice4x4(3, 1)].AgregarAdyacente(CrearArista(nodos[Indice4x4(2, 0)]));
+
+
+        nodos[Indice4x4(2, 2)].AgregarAdyacente(CrearArista(nodos[Indice4x4(3, 3)]));
+        nodos[Indice4x4(2, 3)].AgregarAdyacente(CrearArista(nodos[Indice4x4(3, 2)]));
+        nodos[Indice4x4(3, 2)].AgregarAdyacente(CrearArista(nodos[Indice4x4(2, 3)]));
+        nodos[Indice4x4(3, 3)].AgregarAdyacente(CrearArista(nodos[Indice4x4(2, 2)]));
+
         return nodos;
     }
 
-    private List<INodo> CrearSudoku()
+    [Test]
+    public void Test10SudokuDe4x4SeResuelveYTodasLasEntropiasSonUno()
     {
-        List<INodo> sudoku = new List<INodo>();
+        List<INodo> nodos = CrearSudoku4x4();
 
-        List<List<INodo>> bloquesNueve = new List<List<INodo>>();
+        WaveFunctionCollapse.Ejecutar(ref nodos, _generadorDeNumeros);
 
-        for (int i = 0; i < 9; i++)
-            bloquesNueve.Add(CrearBloqueSudoku());
-
-        foreach (List<INodo> bloqueNueve in bloquesNueve)
-            foreach (INodo nodo in bloqueNueve)
-                sudoku.Add(nodo);
-
-        // vincular filas
-        for (int bloqueI = 0; bloqueI < 3; bloqueI++)
-            for (int bloqueJ = 0; bloqueJ < 3; bloqueJ++)
-                for (int celdaI = 0; celdaI < 3; celdaI++)
-                    for (int celdaJ = 0; celdaJ < 3; celdaJ++)
-                    {
-                        INodo nodoActual = bloquesNueve[bloqueI + 3 * bloqueJ][celdaI + 3 * celdaJ];
-
-                        Debug.Log("Estando en bloque: " + bloqueI + ", " + bloqueJ + ", celda: " + celdaI + ", " + celdaJ);
-                        for (int i = 0; i < 3; i++)
-                        {
-                            if (i == bloqueI)
-                                continue;
-                            for (int j = 0; j < 3; j++)
-                            {
-                                INodo nodoAVincular = bloquesNueve[bloqueI + 3 * i][celdaI + 3 * j];
-                                Debug.Log("Bloque: " + bloqueI + ", " + i + ", celda: " + celdaI + ", " + j);
-
-                                nodoActual.AgregarAdyacente(new Arista(nodoAVincular, _valor));
-                            }
-                        }
-                    }
-
-        // vincular columnas
-        for (int bloqueI = 0; bloqueI < 3; bloqueI++)
-            for (int bloqueJ = 0; bloqueJ < 3; bloqueJ++)
-                for (int celdaI = 0; celdaI < 3; celdaI++)
-                    for (int celdaJ = 0; celdaJ < 3; celdaJ++)
-                    {
-                        INodo nodoActual = bloquesNueve[bloqueI + 3 * bloqueJ][celdaI + 3 * celdaJ];
-                        for (int i = 0; i < 3; i++)
-                        {
-                            if (i == bloqueJ)
-                                continue;
-                            for (int j = 0; j < 3; j++)
-                            {
-                                INodo nodoAVincular = bloquesNueve[i + 3 * bloqueJ][j + 3 * celdaJ];
-                                nodoActual.AgregarAdyacente(new Arista(nodoAVincular, _valor));
-                            }
-                        }
-                    }
-
-        return sudoku;
+        foreach (INodo nodo in nodos)
+            Assert.AreEqual(1, nodo.Entropia());
     }
 
     [Test]
-    public void Test10SeCreaUnSudokuYLaEntropiaEsUnoYEstaEnUnEstadoValido()
+    public void Test11SudokuDe4x4ConAlgunosNodosColapsadosTerminaConTodosSusEntropiasEnUno()
     {
-        List<INodo> nodos = CrearSudoku();
+        List<INodo> nodos = CrearSudoku4x4();
+
+        nodos[Indice4x4(0, 3)].Colapsar(new GeneradorElectivoPrueba(3));
+        nodos[Indice4x4(1, 0)].Colapsar(new GeneradorElectivoPrueba(2));
+        nodos[Indice4x4(2, 1)].Colapsar(new GeneradorElectivoPrueba(1));
+
         WaveFunctionCollapse.Ejecutar(ref nodos, _generadorDeNumeros);
-        //int contador = 1;
+
         foreach (INodo nodo in nodos)
-        {
             Assert.AreEqual(1, nodo.Entropia());
-            EstadoPrueba estadoNodo = nodo.EstadoFinal() as EstadoPrueba;
-            //Assert.AreEqual((contador++) % 9, estadoNodo.Numero);
-            //Debug.Log(estadoNodo.Numero);
-        }
     }
 }
