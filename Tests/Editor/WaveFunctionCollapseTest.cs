@@ -5,21 +5,6 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using ItIsNotOnlyMe.WaveFunctionCollapse;
 
-public class GeneradorElectivoPrueba : IGeneradorDeNumeros
-{
-    private int _numero;
-
-    public GeneradorElectivoPrueba(int numero)
-    {
-        _numero = numero;
-    }
-
-    public int Numero(int final, int inicio = 0, int separacion = 1)
-    {
-        return _numero - 1;
-    }
-}
-
 public class WaveFunctionCollapseTest
 {
     private IGeneradorDeNumeros _generadorDeNumeros = new GeneradorInicioPrueba();
@@ -198,7 +183,6 @@ public class WaveFunctionCollapseTest
         Assert.AreEqual(3, estadoTerciario.Numero);
     }
 
-    // mas pruebas con nodos indirectos
 
     [Test]
     public void Test08ConCuatrosNodosTodosVinculadosConTodosAlUsarElAlgoritmoTodasLasEntropiasSonUno()
