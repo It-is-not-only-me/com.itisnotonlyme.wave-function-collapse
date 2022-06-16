@@ -2,7 +2,7 @@
 
 public class GeneradorInicioPrueba : IGeneradorDeNumeros
 {
-    public int Numero(int final, int inicio = 0, int separacion = 1)
+    public int Numero(int final, int inicio = 0)
     {
         return inicio;
     }
