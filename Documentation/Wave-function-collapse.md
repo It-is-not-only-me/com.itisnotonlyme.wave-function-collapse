@@ -16,3 +16,7 @@ Como ejemplo: en un sudoku, tendriamos un estado que representaria los numeros. 
 Esta interface permite representar la relacion que tienen los nodos por las aristas.
 
 Como ejemplo: en una matriz, tendriamos un valor para representar la direccion (arriba, abajo, izquierda, derecha) en la que se encuentra los nodos.
+
+### ISeleccionarNodo e ISeleccionarEstado
+---
+Son interfaces para poder elegir, ya sea nodos o estados, segun una lista de los mismo. Esto permite poder elegir ya sea conociendo los nodos o estados, y tener que cada elemeneto tenga su propio peso.
