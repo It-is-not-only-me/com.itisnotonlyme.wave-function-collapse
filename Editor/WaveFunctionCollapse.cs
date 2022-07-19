@@ -6,15 +6,15 @@ namespace ItIsNotOnlyMe.WaveFunctionCollapse
 {
     public static class WaveFunctionCollapse
     {
-        public static void Ejecutar(ref List<INodo> nodos, IGeneradorDeNumeros generadorDeNumeros)
+        public static void Ejecutar(ref List<INodo> nodos, ISeleccionarNodo seleccionarNodo, ISeleccionarEstado seleccionarEstado)
         {
-            int inicio = generadorDeNumeros.Numero(nodos.Count);
-            nodos[inicio].Colapsar(generadorDeNumeros);
+            INodo nodoInicio = seleccionarNodo.Elegir(nodos);
+            nodoInicio.Colapsar(seleccionarEstado);
 
             while (!Terminado(nodos))
             {
-                INodo nodoActual = NodoConMenorEntropia(nodos, generadorDeNumeros);
-                nodoActual.Colapsar(generadorDeNumeros);
+                INodo nodoActual = NodoConMenorEntropia(nodos, seleccionarNodo);
+                nodoActual.Colapsar(seleccionarEstado);
             }
         }
 
@@ -23,7 +23,7 @@ namespace ItIsNotOnlyMe.WaveFunctionCollapse
             return nodos.TrueForAll(nodo => Nodoterminado(nodo));
         }
 
-        private static INodo NodoConMenorEntropia(List<INodo> nodos, IGeneradorDeNumeros generadorDeNumeros)
+        private static INodo NodoConMenorEntropia(List<INodo> nodos, ISeleccionarNodo seleccionarNodo)
         {
             if (Terminado(nodos))
                 return null;
@@ -51,7 +51,7 @@ namespace ItIsNotOnlyMe.WaveFunctionCollapse
                     nodosMinimos.Add(nodo);
             }
 
-            return nodosMinimos[generadorDeNumeros.Numero(nodosMinimos.Count)];
+            return seleccionarNodo.Elegir(nodosMinimos);
         }
 
         private static bool Nodoterminado(INodo nodo)

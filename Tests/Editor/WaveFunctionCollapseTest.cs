@@ -7,7 +7,9 @@ using ItIsNotOnlyMe.WaveFunctionCollapse;
 
 public class WaveFunctionCollapseTest
 {
-    private IGeneradorDeNumeros _generadorDeNumeros = new GeneradorInicioPrueba();
+    private ISeleccionarNodo _seleccionarNodo = new SeleccionarNodoPrueba();
+    private ISeleccionarEstado _seleccionarEstado = new SeleccionarEstadoPrueba();
+    
     private IValor _valor = new ValorPruba();
 
     private IEstado _estado1, _estado2, _estado3, _estado4, _estado5, _estado6, _estado7, _estado8, _estado9;
@@ -60,7 +62,7 @@ public class WaveFunctionCollapseTest
         };
         INodo nodo = new Nodo(estados);
 
-        nodo.Colapsar(_generadorDeNumeros);
+        nodo.Colapsar(_seleccionarEstado);
         Assert.AreEqual(1, nodo.Entropia());
     }
 
@@ -76,7 +78,7 @@ public class WaveFunctionCollapseTest
         principal.AgregarAdyacente(aristaPriSec);
         secundario.AgregarAdyacente(aristaSecPri);
 
-        principal.Colapsar(_generadorDeNumeros);
+        principal.Colapsar(_seleccionarEstado);
 
         Assert.AreEqual(1, principal.Entropia());
         Assert.AreEqual(1, secundario.Entropia());
@@ -106,7 +108,7 @@ public class WaveFunctionCollapseTest
         secundario.AgregarAdyacente(aristaSecTri);
         terciario.AgregarAdyacente(aristaTriSec);
 
-        principal.Colapsar(_generadorDeNumeros);
+        principal.Colapsar(_seleccionarEstado);
 
         Assert.AreEqual(1, principal.Entropia());
         Assert.AreEqual(2, secundario.Entropia());
@@ -133,13 +135,13 @@ public class WaveFunctionCollapseTest
         terciario.AgregarAdyacente(aristaAPri);
         terciario.AgregarAdyacente(aristaASec);
 
-        principal.Colapsar(_generadorDeNumeros);
+        principal.Colapsar(_seleccionarEstado);
 
         Assert.AreEqual(1, principal.Entropia());
         Assert.AreEqual(2, secundario.Entropia());
         Assert.AreEqual(2, terciario.Entropia());
 
-        secundario.Colapsar(_generadorDeNumeros);
+        secundario.Colapsar(_seleccionarEstado);
 
         Assert.AreEqual(1, principal.Entropia());
         Assert.AreEqual(1, secundario.Entropia());
@@ -168,7 +170,7 @@ public class WaveFunctionCollapseTest
 
         List<INodo> nodos = new List<INodo> { principal, secundario, terciario };
 
-        WaveFunctionCollapse.Ejecutar(ref nodos, _generadorDeNumeros);
+        WaveFunctionCollapse.Ejecutar(ref nodos, _seleccionarNodo, _seleccionarEstado);
 
         Assert.AreEqual(1, principal.Entropia());
         Assert.AreEqual(1, secundario.Entropia());
@@ -200,7 +202,7 @@ public class WaveFunctionCollapseTest
                 nodos[i].AgregarAdyacente(new Arista(nodos[j], _valor));
             }
 
-        WaveFunctionCollapse.Ejecutar(ref nodos, _generadorDeNumeros);
+        WaveFunctionCollapse.Ejecutar(ref nodos, _seleccionarNodo, _seleccionarEstado);
 
         foreach (INodo nodo in nodos)
             Assert.AreEqual(1, nodo.Entropia());
@@ -222,7 +224,7 @@ public class WaveFunctionCollapseTest
                 nodos[i].AgregarAdyacente(new Arista(nodos[j], _valor));
             }
 
-        WaveFunctionCollapse.Ejecutar(ref nodos, _generadorDeNumeros);
+        WaveFunctionCollapse.Ejecutar(ref nodos, _seleccionarNodo, _seleccionarEstado);
 
         int contador = 1;
         foreach (INodo nodo in nodos)
@@ -299,7 +301,7 @@ public class WaveFunctionCollapseTest
     {
         List<INodo> nodos = CrearSudoku4x4();
 
-        WaveFunctionCollapse.Ejecutar(ref nodos, _generadorDeNumeros);
+        WaveFunctionCollapse.Ejecutar(ref nodos, _seleccionarNodo, _seleccionarEstado);
 
         foreach (INodo nodo in nodos)
             Assert.AreEqual(1, nodo.Entropia());
@@ -310,11 +312,11 @@ public class WaveFunctionCollapseTest
     {
         List<INodo> nodos = CrearSudoku4x4();
 
-        nodos[Indice4x4(0, 3)].Colapsar(new GeneradorElectivoPrueba(3));
-        nodos[Indice4x4(1, 0)].Colapsar(new GeneradorElectivoPrueba(2));
-        nodos[Indice4x4(2, 1)].Colapsar(new GeneradorElectivoPrueba(1));
+        nodos[Indice4x4(0, 3)].Colapsar(new SeleccionEstadoElectivoPrueba(3));
+        nodos[Indice4x4(1, 0)].Colapsar(new SeleccionEstadoElectivoPrueba(2));
+        nodos[Indice4x4(2, 1)].Colapsar(new SeleccionEstadoElectivoPrueba(1));
 
-        WaveFunctionCollapse.Ejecutar(ref nodos, _generadorDeNumeros);
+        WaveFunctionCollapse.Ejecutar(ref nodos, _seleccionarNodo, _seleccionarEstado);
 
         foreach (INodo nodo in nodos)
             Assert.AreEqual(1, nodo.Entropia());

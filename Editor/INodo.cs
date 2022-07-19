@@ -10,7 +10,7 @@ namespace ItIsNotOnlyMe.WaveFunctionCollapse
 
         public void AgregarAdyacente(IArista adyacente);
 
-        public void Colapsar(IGeneradorDeNumeros generadorDeNumeros);
+        public void Colapsar(ISeleccionarEstado seleccionarEstado);
 
         public void Propagar(List<IEstado> estados);
 
