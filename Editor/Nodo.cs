@@ -19,9 +19,9 @@ namespace ItIsNotOnlyMe.WaveFunctionCollapse
         }
 
 
-        public void Colapsar(IGeneradorDeNumeros generadorDeNumeros)
+        public void Colapsar(ISeleccionarEstado seleccionarEstado)
         {
-            IEstado estadoUnico = _estados[generadorDeNumeros.Numero(_estados.Count)];
+            IEstado estadoUnico = seleccionarEstado.Elegir(_estados);
             _estados.Clear();
             _estados.Add(estadoUnico);
             Propagar(_estados);
