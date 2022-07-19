@@ -1,7 +1,14 @@
-﻿namespace ItIsNotOnlyMe.WaveFunctionCollapse
+﻿using System.Collections.Generic;
+
+namespace ItIsNotOnlyMe.WaveFunctionCollapse
 {
-    public interface IGeneradorDeNumeros
+    public interface ISeleccionarNodo
     {
-        public int Numero(int final, int inicio = 0);
+        public INodo Elegir(List<INodo> nodos);
+    }
+
+    public interface ISeleccionarEstado
+    {
+        public IEstado Elegir(List<IEstado> estados);
     }
 }
