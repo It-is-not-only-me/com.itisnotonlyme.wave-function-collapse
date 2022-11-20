@@ -14,7 +14,7 @@ namespace ItIsNotOnlyMe.WaveFunctionCollapse
 
         public void Propagar(List<IEstado> estados);
 
-        public void Colapsar(List<IEstado> estados, IValor valor);
+        public void Colapsar(List<IEstado> estados, IValor valor = null);
 
         public IEstado EstadoFinal();
     }

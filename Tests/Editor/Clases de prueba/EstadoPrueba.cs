@@ -10,7 +10,7 @@ public class EstadoPrueba : IEstado
         Numero = numero;
     }
 
-    public bool SeElimina(List<IEstado> estados, IValor valor)
+    public bool SeElimina(List<IEstado> estados, IValor valor = null)
     {
         bool seElimina = estados.Count > 0;
         foreach (IEstado estado in estados)
