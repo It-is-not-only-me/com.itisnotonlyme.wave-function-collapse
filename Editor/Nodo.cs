@@ -27,7 +27,7 @@ namespace ItIsNotOnlyMe.WaveFunctionCollapse
             Propagar(_estados);
         }
 
-        public void Colapsar(List<IEstado> estados, IValor valor)
+        public void Colapsar(List<IEstado> estados, IValor valor = null)
         {
             List<IEstado> estadosASacar = new List<IEstado>();
 
