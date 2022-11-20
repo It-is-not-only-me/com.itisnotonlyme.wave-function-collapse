@@ -9,8 +9,6 @@ public class WaveFunctionCollapseTest
 {
     private ISeleccionarNodo _seleccionarNodo = new SeleccionarNodoPrueba();
     private ISeleccionarEstado _seleccionarEstado = new SeleccionarEstadoPrueba();
-    
-    private IValor _valor = new ValorPruba();
 
     private IEstado _estado1, _estado2, _estado3, _estado4, _estado5, _estado6, _estado7, _estado8, _estado9;
 
@@ -72,8 +70,8 @@ public class WaveFunctionCollapseTest
         INodo principal = new Nodo(new List<IEstado> { _estado1, _estado2 });
         INodo secundario = new Nodo(new List<IEstado> { _estado1, _estado2 });
 
-        IArista aristaPriSec = new Arista(secundario, _valor);
-        IArista aristaSecPri = new Arista(principal, _valor);
+        IArista aristaPriSec = new Arista(secundario);
+        IArista aristaSecPri = new Arista(principal);
 
         principal.AgregarAdyacente(aristaPriSec);
         secundario.AgregarAdyacente(aristaSecPri);
@@ -97,10 +95,10 @@ public class WaveFunctionCollapseTest
         INodo secundario = new Nodo(new List<IEstado> { _estado1, _estado2, _estado3 });
         INodo terciario = new Nodo(new List<IEstado> { _estado1, _estado2, _estado3 });
 
-        IArista aristaPriSec = new Arista(secundario, _valor);
-        IArista aristaSecPri = new Arista(principal, _valor);
-        IArista aristaSecTri = new Arista(terciario, _valor);
-        IArista aristaTriSec = new Arista(secundario, _valor);
+        IArista aristaPriSec = new Arista(secundario);
+        IArista aristaSecPri = new Arista(principal);
+        IArista aristaSecTri = new Arista(terciario);
+        IArista aristaTriSec = new Arista(secundario);
 
         principal.AgregarAdyacente(aristaPriSec);
         secundario.AgregarAdyacente(aristaSecPri);
@@ -122,9 +120,9 @@ public class WaveFunctionCollapseTest
         INodo secundario = new Nodo(new List<IEstado> { _estado1, _estado2, _estado3 });
         INodo terciario = new Nodo(new List<IEstado> { _estado1, _estado2, _estado3 });
 
-        IArista aristaAPri = new Arista(principal, _valor);
-        IArista aristaASec = new Arista(secundario, _valor);
-        IArista aristaATri = new Arista(terciario, _valor);
+        IArista aristaAPri = new Arista(principal);
+        IArista aristaASec = new Arista(secundario);
+        IArista aristaATri = new Arista(terciario);
 
         principal.AgregarAdyacente(aristaASec);
         principal.AgregarAdyacente(aristaATri);
@@ -155,9 +153,9 @@ public class WaveFunctionCollapseTest
         INodo secundario = new Nodo(new List<IEstado> { _estado1, _estado2, _estado3 });
         INodo terciario = new Nodo(new List<IEstado> { _estado1, _estado2, _estado3 });
 
-        IArista aristaAPri = new Arista(principal, _valor);
-        IArista aristaASec = new Arista(secundario, _valor);
-        IArista aristaATri = new Arista(terciario, _valor);
+        IArista aristaAPri = new Arista(principal);
+        IArista aristaASec = new Arista(secundario);
+        IArista aristaATri = new Arista(terciario);
 
         principal.AgregarAdyacente(aristaASec);
         principal.AgregarAdyacente(aristaATri);
@@ -199,7 +197,7 @@ public class WaveFunctionCollapseTest
             {
                 if (i == j)
                     continue;
-                nodos[i].AgregarAdyacente(new Arista(nodos[j], _valor));
+                nodos[i].AgregarAdyacente(new Arista(nodos[j]));
             }
 
         WaveFunctionCollapse.Ejecutar(ref nodos, _seleccionarNodo, _seleccionarEstado);
@@ -221,7 +219,7 @@ public class WaveFunctionCollapseTest
             {
                 if (i == j)
                     continue;
-                nodos[i].AgregarAdyacente(new Arista(nodos[j], _valor));
+                nodos[i].AgregarAdyacente(new Arista(nodos[j]));
             }
 
         WaveFunctionCollapse.Ejecutar(ref nodos, _seleccionarNodo, _seleccionarEstado);
@@ -237,7 +235,7 @@ public class WaveFunctionCollapseTest
 
     private Arista CrearArista(INodo nodo)
     {
-        return new Arista(nodo, _valor);
+        return new Arista(nodo);
     }
 
     private int Indice4x4(int fila, int columna)
